@@ -1,4 +1,4 @@
-```python
+python
 import requests,random,string,re,os,json,time,uuid
 from bs4 import BeautifulSoup
 
@@ -325,4 +325,3 @@ def handle_file(message):
 print("BOT STARTED")
 
 bot.infinity_polling()
-```
