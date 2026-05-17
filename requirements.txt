@@ -4,3 +4,4 @@ beautifulsoup4
 faker
 PyJWT
 user-agent
+flask
