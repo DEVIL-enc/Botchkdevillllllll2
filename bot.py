@@ -1,4 +1,3 @@
-python
 import requests,random,string,re,os,json,time,uuid
 from bs4 import BeautifulSoup
 
