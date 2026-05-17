@@ -1,1 +1,2 @@
-# Botchkdevillllllll2
+# Mybotchk
+For educational purposes only 
