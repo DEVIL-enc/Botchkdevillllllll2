@@ -16,8 +16,8 @@ from flask import Flask, request
 
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
-BOT_TOKEN = '8697305127:AAGfU9e2ZH8uRGmsNZnbjLcFwipB_XO_wk8'
-ADMIN_ID = 5629984144
+BOT_TOKEN = '8754915222:AAFdGOK20GXbbLs39GvoN0y-rTpcE5M7Izo'
+ADMIN_ID = 1707478010
 bot = telebot.TeleBot(BOT_TOKEN, num_threads=10, skip_pending=True)
 
 USERS_FILE = 'users.json'
