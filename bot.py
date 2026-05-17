@@ -72,45 +72,36 @@ def test_proxy(proxy_url):
 
 def set_proxy(proxy_url):
     global ACTIVE_PROXY
-    
-    # Parse WebShare format: host:port:username:password
-    if ':' in proxy_url and proxy_url.count(':') == 3:
-        try:
-            parts = proxy_url.split(':')
-            if len(parts) == 4:
-                host, port, username, password = parts
-                proxy_url = f"http://{username}:{password}@{host}:{port}"
-                print(f"✅ Detected WebShare format")
-        except Exception as e:
-            print(f"WebShare parse error: {e}")
-            pass
-    
-    # Parse format: host:port@username:password
-    elif '@' in proxy_url and not proxy_url.startswith('http'):
-        try:
-            parts = proxy_url.split('@')
-            if len(parts) == 2:
-                host_port = parts[0]
-                user_pass = parts[1]
-                proxy_url = f"http://{user_pass}@{host_port}"
-                print(f"✅ Detected host:port@user:pass format")
-        except Exception as e:
-            print(f"Parse error: {e}")
-            pass
-    
-    # Add http:// if missing
-    if not proxy_url.startswith('http://') and not proxy_url.startswith('https://'):
-        proxy_url = f"http://{proxy_url}"
-    
-    print(f"Testing proxy: {proxy_url[:50]}...")
-    if test_proxy(proxy_url):
-        with PROXY_LOCK:
+
+    try:
+        proxy_url = proxy_url.strip()
+
+        if proxy_url.count(':') == 3 and '@' not in proxy_url:
+            host, port, username, password = proxy_url.split(':')
+            proxy_url = f"http://{username}:{password}@{host}:{port}"
+
+        if not proxy_url.startswith(('http://', 'https://', 'socks4://', 'socks5://')):
+            proxy_url = f"http://{proxy_url}"
+
+        proxies = {
+            'http': proxy_url,
+            'https': proxy_url
+        }
+
+        response = requests.get(
+            'https://api.ipify.org',
+            proxies=proxies,
+            timeout=15
+        )
+
+        if response.status_code == 200:
             ACTIVE_PROXY = proxy_url
-        print(f"✅ Proxy set successfully!")
-        return True, "✅ Proxy is live and set successfully!"
-    
-    print(f"❌ Proxy failed all tests")
-    return False, "❌ Proxy is dead or unreachable"
+            return True, "✅ Proxy Working"
+
+    except Exception as e:
+        print(e)
+
+    return False, "❌ Proxy Failed"
 
 def remove_proxy():
     global ACTIVE_PROXY
