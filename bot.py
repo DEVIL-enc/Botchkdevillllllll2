@@ -39,9 +39,8 @@ def toc_gate(ccx):
         'https://www.foursquare.org.uk/donate/',
         headers=headers
     )
-
-	try:
-    post = re.search(r'name="post_id"\s+value="([^"]+)"', response.text).group(1)
+try:
+	post = re.search(r'name="post_id"\s+value="([^"]+)"', response.text).group(1)
     form = re.search(r'name="form_id"\s+value="([^"]+)"', response.text).group(1)
     refer = re.search(r'name="referer_title"\s+value="([^"]+)"', response.text).group(1)
     queried = re.search(r'name="queried_id"\s+value="([^"]+)"', response.text).group(1)
