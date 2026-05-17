@@ -13,8 +13,8 @@ import string
 from telebot import types
 import re
 stopuser = {}
-token = '7799708941:AAFC4bzUPUa59OeuoXG2f9IREqZhY7QTyYo'#TOKEN
-admin=5268530944
+token = '8814945212:AAGFnRBqkSQSdiuMiPieLFH2BDbEocJUDhc'#TOKEN
+admin=1707478010
 
 bot=telebot.TeleBot(token,parse_mode="HTML")
 
