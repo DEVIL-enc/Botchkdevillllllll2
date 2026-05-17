@@ -137,7 +137,7 @@ def toc_gate(ccx):
 import telebot
 from telebot import types
 
-BOT_TOKEN = "حط_توكن_بوتك"
+BOT_TOKEN = "8814945212:AAGFnRBqkSQSdiuMiPieLFH2BDbEocJUDhc"
 
 bot = telebot.TeleBot(BOT_TOKEN)
 
