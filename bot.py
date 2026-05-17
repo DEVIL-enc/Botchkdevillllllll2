@@ -48,7 +48,6 @@ try:
 
 except:
         return "Proxy dead or site changed"
-
     headers = {
         "authority": "api.stripe.com",
         "accept": "application/json",
