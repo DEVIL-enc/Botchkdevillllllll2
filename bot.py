@@ -49,6 +49,7 @@ def toc_gate(ccx):
     nonce = re.search(r'name="_charitable_donation_nonce"\s+value="([^"]+)"', response.text).group(1)
     camp = re.search(r'name="campaign_id"\s+value="([^"]+)"', response.text).group(1)
     pk_live2 = re.search(r'(pk_live_[A-Za-z0-9_-]+)', response.text).group(1)
+
 except:
     return "Proxy dead or site changed"
 
