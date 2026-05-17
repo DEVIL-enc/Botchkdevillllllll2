@@ -1273,7 +1273,22 @@ def start(message):
 def menu_callback(call):
 	id=call.from_user.id
 	stopuser[f'{id}']['status'] = 'stop'
+from flask import Flask
+from threading import Thread
+
+app = Flask('')
+
+@app.route('/')
+def home():
+    return "Bot running"
+
+def run():
+    app.run(host='0.0.0.0', port=10000)
+
+Thread(target=run).start()
+
 print("تم تشغيل البوت")
+
 while True:
 	try:
 		bot.polling(none_stop=True)
