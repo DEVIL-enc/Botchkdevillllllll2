@@ -16,7 +16,9 @@ def toc_gate(ccx):
 	email='urmsb@hi2.in'
 
 	proxies_list = [
-    "حط بروكسيك هنا"
+    "http://tickets:proxyon145@196.196.23.45:12345",
+    "http://152.32.132.190:7890",
+    "http://190.93.224.32:999"
 ]
 
 	proxy = random.choice(proxies_list)
