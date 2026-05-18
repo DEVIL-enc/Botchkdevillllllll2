@@ -1,0 +1,503 @@
+# made by talkneon
+# WLID Claimer
+
+import re
+import sys
+import os
+import time
+import urllib.parse
+import requests
+import threading
+from concurrent.futures import ThreadPoolExecutor, as_completed
+
+HEADERS = {
+    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
+                  "(KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36",
+    "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,"
+              "image/webp,image/apng,*/*;q=0.8",
+    "Accept-Language": "en-US,en;q=0.9",
+    "Sec-Fetch-Dest": "document",
+    "Sec-Fetch-Mode": "navigate",
+    "Sec-Fetch-Site": "same-origin",
+    "Sec-Fetch-User": "?1",
+    "Upgrade-Insecure-Requests": "1",
+}
+
+TOKEN_HEADERS = {
+    "Accept": "application/json",
+    "Content-Type": "application/json",
+    "X-Requested-With": "XMLHttpRequest",
+    "Cache-Control": "no-cache",
+    "Pragma": "no-cache",
+}
+
+THREADS = 3
+RESULTS_DIR = "results"
+OUTPUT_FILE = os.path.join(RESULTS_DIR, "valid_wlid.txt")
+FAILED_FILE = os.path.join(RESULTS_DIR, "failed_wlid.txt")
+
+lock = threading.Lock()
+stats = {"success": 0, "failed": 0, "total": 0}
+
+
+def clear():
+    os.system("cls" if os.name == "nt" else "clear")
+
+
+def decode_json_string(text):
+    try:
+        return text.encode().decode("unicode_escape")
+    except Exception:
+        return text
+
+
+def extract_pattern(text, pattern):
+    m = re.search(pattern, text, re.DOTALL)
+    return m.group(1) if m else None
+
+
+def extract_all_inputs(text, pattern):
+    return re.findall(pattern, text, re.DOTALL)
+
+
+def log_step(email_short, step, detail=""):
+    tag = detail if detail else "ok"
+    with lock:
+        print(f"  | {email_short:<30} | step {step}/10 | {tag}")
+
+
+def progress_bar(current, total, width=30):
+    if total == 0:
+        return "[" + "-" * width + "]"
+    filled = int(width * current / total)
+    bar = "#" * filled + "-" * (width - filled)
+    pct = int(100 * current / total)
+    return f"[{bar}] {pct}%"
+
+
+def print_header():
+    clear()
+    print()
+    print("  +-----------------------------------------+")
+    print("  |            WLID Claimer                  |")
+    print("  |            made by talkneon              |")
+    print("  +-----------------------------------------+")
+    print()
+
+
+def print_separator():
+    print("  " + "-" * 55)
+
+
+def login(session, email, password, email_short):
+    # step 1 - navigate to billing/redeem
+    log_step(email_short, 1, "loading redeem page")
+    try:
+        r = session.get(
+            "https://account.microsoft.com/billing/redeem",
+            headers={**HEADERS, "Referer": "https://account.microsoft.com/"},
+            allow_redirects=True, timeout=30,
+        )
+    except Exception as ex:
+        return None, f"NETWORK_ERROR (step1: {ex})"
+    text = r.text
+
+    # step 2 - extract redirect url
+    log_step(email_short, 2, "extracting redirect url")
+    rurl_match = extract_pattern(text, r'"urlPost":"([^"]+)"')
+    if not rurl_match:
+        return None, "FAILED (no redirect url)"
+
+    rurl = "https://login.microsoftonline.com" + decode_json_string(rurl_match)
+    try:
+        r = session.get(
+            rurl,
+            headers={**HEADERS, "Referer": "https://account.microsoft.com/"},
+            allow_redirects=True, timeout=30,
+        )
+    except Exception as ex:
+        return None, f"NETWORK_ERROR (step2: {ex})"
+    text = r.text
+
+    # step 3 - extract AAD url
+    log_step(email_short, 3, "extracting AAD url")
+    furl_match = extract_pattern(text, r'urlGoToAADError":"([^"]+)"')
+    if not furl_match:
+        return None, "FAILED (no AAD url)"
+
+    furl = decode_json_string(furl_match)
+    furl = furl.replace(
+        "&jshs=0",
+        f"&jshs=2&jsh=&jshp=&username={urllib.parse.quote(email)}"
+        f"&login_hint={urllib.parse.quote(email)}",
+    )
+
+    # step 4 - load login form
+    log_step(email_short, 4, "loading login form")
+    try:
+        r = session.get(
+            furl,
+            headers={**HEADERS, "Referer": "https://login.microsoftonline.com/"},
+            allow_redirects=True, timeout=30,
+        )
+    except Exception as ex:
+        return None, f"NETWORK_ERROR (step4: {ex})"
+    text = r.text
+
+    # extract PPFT - try multiple patterns like JS
+    ppft = None
+    # JS order: value=\\?"..." first, then name="PPFT" patterns
+    for pat in [
+        r'value=\\?"([^"\\]+)\\?"',
+        r'name="PPFT"[^>]+value="([^"]+)"',
+        r'value="([^"]+)"[^>]+name="PPFT"',
+    ]:
+        ppft = extract_pattern(text, pat)
+        if ppft:
+            break
+    if not ppft:
+        # try with backslashes stripped like JS does
+        cleaned = text.replace("\\", "")
+        for pat in [
+            r'value="([^"]+)"',
+            r'name="PPFT"[^>]+value="([^"]+)"',
+        ]:
+            ppft = extract_pattern(cleaned, pat)
+            if ppft:
+                break
+    if not ppft:
+        if "captcha" in text.lower() or "hip_challenge" in text.lower():
+            return None, "CAPTCHA_REQUIRED"
+        return None, "FAILED (no PPFT)"
+
+    url_post = extract_pattern(text, r'"urlPost":"([^"]+)"')
+    if not url_post:
+        url_post = extract_pattern(text, r"urlPost:'([^']+)'")
+    if not url_post:
+        return None, "FAILED (no urlPost)"
+
+    # step 5 - submit credentials
+    log_step(email_short, 5, "submitting credentials")
+    login_data = {
+        "login": email, "loginfmt": email,
+        "passwd": password, "PPFT": ppft,
+    }
+    try:
+        r = session.post(
+            url_post, data=login_data,
+            headers={
+                **HEADERS,
+                "Content-Type": "application/x-www-form-urlencoded",
+                "Referer": furl, "Origin": "https://login.live.com",
+            },
+            allow_redirects=True, timeout=30,
+        )
+    except Exception as ex:
+        return None, f"NETWORK_ERROR (step5: {ex})"
+    login_text = r.text.replace("\\", "")
+
+    if "Your account or password is incorrect" in login_text or "sErrTxt" in login_text:
+        return None, "INVALID_CREDENTIALS"
+
+    if "captcha" in login_text.lower() or "hip_challenge" in login_text.lower():
+        return None, "CAPTCHA_REQUIRED"
+
+    # step 6 - extract second sFT
+    log_step(email_short, 6, "extracting second sFT")
+    ppft2 = extract_pattern(login_text, r'"sFT":"([^"]+)"')
+    if not ppft2:
+        action_url = extract_pattern(login_text, r'<form[^>]*action="([^"]+)"')
+        if action_url and "privacynotice" in (action_url or ""):
+            log_step(email_short, 6, "handling privacy notice")
+            inputs = extract_all_inputs(
+                login_text,
+                r'<input[^>]+type="hidden"[^>]+name="([^"]+)"[^>]+value="([^"]*)"',
+            )
+            if inputs:
+                form_data = {n: v for n, v in inputs}
+                try:
+                    r = session.post(
+                        action_url, data=form_data,
+                        headers={**HEADERS, "Content-Type": "application/x-www-form-urlencoded"},
+                        allow_redirects=True, timeout=30,
+                    )
+                except Exception:
+                    pass
+                else:
+                    redirect_m = re.search(r"ucis\.RedirectUrl\s*=\s*'([^']+)'", r.text)
+                    if redirect_m:
+                        redir = redirect_m.group(1).replace("u0026", "&").replace("\\&", "&")
+                        try:
+                            r = session.get(redir, headers=HEADERS, allow_redirects=True, timeout=30)
+                            login_text = r.text.replace("\\", "")
+                        except Exception:
+                            pass
+        ppft2 = extract_pattern(login_text, r'"sFT":"([^"]+)"')
+
+    if not ppft2:
+        return None, "FAILED (no second sFT)"
+
+    # step 7 - final login post
+    log_step(email_short, 7, "final login")
+    lurl = extract_pattern(login_text, r'"urlPost":"([^"]+)"')
+    if not lurl:
+        return None, "FAILED (no final login url)"
+
+    final_data = {
+        "LoginOptions": "1", "type": "28", "ctx": "",
+        "hpgrequestid": "", "PPFT": ppft2, "canary": "",
+    }
+    try:
+        r = session.post(
+            lurl, data=final_data,
+            headers={**HEADERS, "Content-Type": "application/x-www-form-urlencoded"},
+            allow_redirects=True, timeout=30,
+        )
+    except Exception as ex:
+        return None, f"NETWORK_ERROR (step7: {ex})"
+    finish_text = r.text
+
+    # step 8 - follow replace url
+    log_step(email_short, 8, "following redirect")
+    reurl = extract_pattern(finish_text, r'replace\("([^"]+)"\)')
+    reresp = finish_text
+    if reurl:
+        try:
+            r = session.get(
+                reurl,
+                headers={**HEADERS, "Referer": "https://login.live.com/"},
+                allow_redirects=True, timeout=30,
+            )
+            reresp = r.text
+        except Exception:
+            pass
+
+    # step 9 - submit final form
+    log_step(email_short, 9, "submitting final form")
+    action_m = extract_pattern(reresp, r'<form[^>]*action="([^"]+)"')
+    if action_m and "javascript" not in action_m:
+        inputs = extract_all_inputs(
+            reresp, r'<input[^>]*name="([^"]+)"[^>]*value="([^"]*)"'
+        )
+        if not inputs:
+            raw = extract_all_inputs(
+                reresp, r'<input[^>]*value="([^"]*)"[^>]*name="([^"]+)"'
+            )
+            inputs = [(n, v) for v, n in raw]
+        if inputs:
+            form_data = {n: v for n, v in inputs}
+            try:
+                session.post(
+                    action_m, data=form_data,
+                    headers={**HEADERS, "Content-Type": "application/x-www-form-urlencoded"},
+                    allow_redirects=True, timeout=30,
+                )
+            except Exception:
+                pass
+
+    return session, None
+
+
+def extract_token(session, email_short):
+    log_step(email_short, 10, "extracting token")
+    try:
+        r = session.get(
+            "https://account.microsoft.com/auth/acquire-onbehalf-of-token"
+            "?scopes=MSComServiceMBISSL",
+            headers={
+                **TOKEN_HEADERS,
+                "User-Agent": HEADERS["User-Agent"],
+                "Referer": "https://account.microsoft.com/billing/redeem",
+            },
+            timeout=30,
+        )
+    except Exception as ex:
+        return None, f"NETWORK_ERROR (token: {ex})"
+
+    try:
+        data = r.json()
+    except Exception:
+        return None, "FAILED (invalid token response)"
+
+    if not isinstance(data, list) or len(data) == 0:
+        return None, "FAILED (invalid token structure)"
+
+    token = data[0].get("token") if isinstance(data[0], dict) else None
+    if not token:
+        return None, "FAILED (token field empty)"
+
+    return token, None
+
+
+def process_account(email, password):
+    email_short = email[:30] if len(email) > 30 else email
+
+    session = requests.Session()
+    session.max_redirects = 15
+    session.headers.update(HEADERS)
+
+    try:
+        result_session, err = login(session, email, password, email_short)
+        if err:
+            return {"email": email, "success": False, "error": err}
+
+        token, err = extract_token(result_session, email_short)
+        if err:
+            return {"email": email, "success": False, "error": err}
+
+        return {"email": email, "success": True, "token": token}
+
+    except requests.exceptions.Timeout:
+        return {"email": email, "success": False, "error": "TIMEOUT"}
+    except requests.exceptions.ConnectionError:
+        return {"email": email, "success": False, "error": "CONNECTION_ERROR"}
+    except Exception as ex:
+        return {"email": email, "success": False, "error": f"ERROR ({ex})"}
+
+
+def save_token(token):
+    os.makedirs(RESULTS_DIR, exist_ok=True)
+    with lock:
+        with open(OUTPUT_FILE, "a", encoding="utf-8") as f:
+            f.write(token + "\n")
+
+
+def save_failed(email, reason):
+    os.makedirs(RESULTS_DIR, exist_ok=True)
+    with lock:
+        with open(FAILED_FILE, "a", encoding="utf-8") as f:
+            f.write(f"{email} | {reason}\n")
+
+
+def load_accounts(path):
+    accounts = []
+    if not os.path.isfile(path):
+        return accounts
+    with open(path, "r", encoding="utf-8", errors="ignore") as f:
+        for line in f:
+            line = line.strip()
+            if ":" in line and len(line) > 3:
+                accounts.append(line)
+    return accounts
+
+
+def run_claimer(accounts):
+    total = len(accounts)
+    stats["total"] = total
+    stats["success"] = 0
+    stats["failed"] = 0
+
+    print(f"  > accounts loaded : {total}")
+    print(f"  > threads         : {THREADS}")
+    print(f"  > output          : {OUTPUT_FILE}")
+    print()
+    print_separator()
+    print(f"  | {'ACCOUNT':<30} | {'STEP':<9} | STATUS")
+    print_separator()
+
+    start_time = time.time()
+    completed = [0]
+
+    def worker(acc):
+        idx = acc.index(":")
+        email = acc[:idx]
+        password = acc[idx + 1:]
+
+        result = process_account(email, password)
+
+        with lock:
+            completed[0] += 1
+            current = completed[0]
+
+            if result["success"]:
+                stats["success"] += 1
+                save_token(result["token"])
+                status = "SUCCESS"
+            else:
+                stats["failed"] += 1
+                save_failed(email, result["error"])
+                status = result["error"]
+
+            print_separator()
+            bar = progress_bar(current, total)
+            e_short = email[:30] if len(email) > 30 else email
+            print(f"  | {e_short:<30} | DONE      | {status}")
+            print(f"  | {bar}  {current}/{total}")
+            print_separator()
+
+        return result
+
+    thread_count = min(THREADS, total)
+    with ThreadPoolExecutor(max_workers=thread_count) as pool:
+        futures = [pool.submit(worker, acc) for acc in accounts]
+        for f in as_completed(futures):
+            try:
+                f.result()
+            except Exception:
+                pass
+
+    elapsed = time.time() - start_time
+    print()
+    print("  +-----------------------------------------+")
+    print("  |              SUMMARY                     |")
+    print("  +-----------------------------------------+")
+    print(f"  | completed in {elapsed:.1f}s")
+    print(f"  | success : {stats['success']}")
+    print(f"  | failed  : {stats['failed']}")
+    print(f"  | total   : {total}")
+    if stats["success"] > 0:
+        print(f"  | saved   : {OUTPUT_FILE}")
+    print("  +-----------------------------------------+")
+    print()
+
+
+def main():
+    print_header()
+
+    print("  [1] Load accounts from file")
+    print("  [2] Paste accounts manually")
+    print()
+
+    choice = input("  > select option: ").strip()
+
+    accounts = []
+
+    if choice == "1":
+        print()
+        path = input("  > drag/drop file or enter path: ").strip()
+        path = path.strip('"').strip("'")
+        if not os.path.isfile(path):
+            print(f"\n  file not found: {path}")
+            return
+        accounts = load_accounts(path)
+        if not accounts:
+            print("\n  no valid accounts found in file")
+            return
+
+    elif choice == "2":
+        print()
+        print("  paste accounts (email:pass), one per line")
+        print("  type 'done' when finished")
+        print()
+        while True:
+            line = input("  > ").strip()
+            if line.lower() == "done":
+                break
+            if ":" in line and len(line) > 3:
+                accounts.append(line)
+        if not accounts:
+            print("\n  no valid accounts entered")
+            return
+
+    else:
+        print("\n  invalid option")
+        return
+
+    print()
+    run_claimer(accounts)
+
+    input("  press enter to exit...")
+
+
+if __name__ == "__main__":
+    main()
