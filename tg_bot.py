@@ -36,9 +36,9 @@ except ImportError:
 # ============================================================
 #  Configuration
 # ============================================================
-BOT_TOKEN = "8190896455:AAFXvW4eVTDvESHw_SHYxHCRXngxYnMJKqc"
-DEVELOPER = "Hijra"
-ADMIN_IDS = [5342093297]
+BOT_TOKEN = "8814945212:AAGFnRBqkSQSdiuMiPieLFH2BDbEocJUDhc"
+DEVELOPER = "Devillll"
+ADMIN_IDS = [1707478010]
 
 DATA_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "data")
 KEYS_FILE = os.path.join(DATA_DIR, "tg_keys.json")
