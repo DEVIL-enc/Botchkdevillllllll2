@@ -23,11 +23,7 @@ from braintree_auth_checker import check_card as braintreeauth_check_card, probe
 from braintree_checker import check_card as braintree_check_card
 from chg3_checker import check_card as chg3_check_card, probe_site as chg3_probe_site
 from chr1_checker import check_card as chr1_check_card, probe_site as chr1_probe_site
-from hotmail_checker import check_card as hotmail_check_card, probe_site as hotmail_probe_site
-from ms_code_checker import check_card as mscode_check_card, probe_site as mscode_probe_site
-from msf_checker import check_card as msf_check_card, probe_site as msf_probe_site
 from nvbv_checker import check_card as nvbv_check_card, probe_site as nvbv_probe_site
-from refund_checker import check_card as refund_check_card, probe_site as refund_probe_site
 from rpay_checker import check_card as rpay_check_card, probe_site as rpay_probe_site
 from sa1_checker import check_card as sa1_check_card, probe_site as sa1_probe_site
 from sa2_checker import check_card as sa2_check_card, probe_site as sa2_probe_site
