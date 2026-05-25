@@ -29,6 +29,7 @@ from sa1_checker import check_card as sa1_check_card, probe_site as sa1_probe_si
 from sa2_checker import check_card as sa2_check_card, probe_site as sa2_probe_site
 from shopify_gql_checker import check_card as shopifygql_check_card, probe_site as shopifygql_probe_site
 DEFAULT_THREADS = 10
+DEVELOPER = "DEVIL"
 
 def run_processing(lines, user_id, on_progress=None, on_complete=None, threads=DEFAULT_THREADS, gate="auth"):
     proxies_list = list(_global_proxies) if _global_proxies else []
