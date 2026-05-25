@@ -34,62 +34,6 @@ from sa1_checker import check_card as sa1_check_card, probe_site as sa1_probe_si
 from sa2_checker import check_card as sa2_check_card, probe_site as sa2_probe_site
 from shopify_gql_checker import check_card as shopifygql_check_card, probe_site as shopifygql_probe_site
 
-                "Rate limited", "Service unavailable",
-            ]
-
-            def _is_conn_error(r):
-                return isinstance(r, str) and any(e in r for e in _CONN_ERRORS)
-
-            # Try up to 5 proxies with rotation before giving up
-            max_proxy_tries = min(5, len(proxies_list)) if proxies_list else 0
-            proxy_candidates = _get_rotating_proxy(proxies_list, max_tries=max_proxy_tries) if proxies_list else [None]
-            result = None
-
-            for proxy_dict in proxy_candidates:
-                if cancel_flags.get(user_id):
-                    break
-                try:
-                    result = _run_gate(gate, c_num, c_mm, c_yy, c_cvv, proxy_dict)
-                    if not _is_conn_error(result):
-                        break
-                    # Small backoff before next proxy
-                    time.sleep(random.uniform(0.3, 0.7))
-                except (requests.exceptions.ProxyError, requests.exceptions.ConnectionError,
-                        requests.exceptions.Timeout, ConnectionError, OSError):
-                    time.sleep(random.uniform(0.2, 0.5))
-                    continue
-                except Exception as e:
-                    result = f"Error: {str(e)}"
-                    if not _is_conn_error(result):
-                        break
-
-            # Final fallback: direct connection (no proxy)
-            if result is None or _is_conn_error(result):
-                try:
-                    result = _run_gate(gate, c_num, c_mm, c_yy, c_cvv, None)
-                except Exception as e2:
-                    result = f"Error: {str(e2)}"
-
-            # Sanitize: never show raw connection errors to users
-            if _is_conn_error(result):
-                result = "Declined | Gateway Timeout"
-
-            if result is None:
-                result = "Declined | Gateway Timeout"
-        else:
-            result = "Error: Invalid Format"
-    except Exception as e:
-        result = f"Error: {str(e)}"
-
-    return result
-
-
-# ============================================================
-#  Processing runner
-# ============================================================
-DEFAULT_THREADS = 10
-
-
 def run_processing(lines, user_id, on_progress=None, on_complete=None, threads=DEFAULT_THREADS, gate="auth"):
     proxies_list = list(_global_proxies) if _global_proxies else []
     total = len(lines)
