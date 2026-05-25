@@ -21,7 +21,6 @@ from b3_checker import check_card as b3_check_card, probe_site as b3_probe_site
 from br3_charge_checker import check_card as br3charge_check_card, probe_site as br3charge_probe_site
 from braintree_auth_checker import check_card as braintreeauth_check_card, probe_site as braintreeauth_probe_site
 from braintree_checker import check_card as braintree_check_card
-from checker import check_card as checker_check_card, probe_site as checker_probe_site
 from chg3_checker import check_card as chg3_check_card, probe_site as chg3_probe_site
 from chr1_checker import check_card as chr1_check_card, probe_site as chr1_probe_site
 from hotmail_checker import check_card as hotmail_check_card, probe_site as hotmail_probe_site
